@@ -2,6 +2,8 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import luauLsp from '../../resources/luau-lsp.exe?asset&asarUnpack'
+import apiDocs from '../../resources/api-docs.json?commonjs-external&asset'
+import definitions from '../../resources/globalTypes.PluginSecurity.d.luau?asset&asarUnpack'
 import { fileURLToPath } from 'url'
 import { WebSocketServer } from 'ws'
 import { startLanguageServer } from './languageServer'
@@ -11,7 +13,7 @@ const startServerProcess = (socket: IWebSocket): void =>
   startLanguageServer(socket, {
     serverName: 'lua',
     command: luauLsp,
-    commandArgs: ['lsp']
+    commandArgs: ['lsp', `--definitions=${definitions}`, `--docs=${apiDocs}`]
   })
 
 // launch lsp
